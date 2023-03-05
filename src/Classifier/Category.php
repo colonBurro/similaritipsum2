@@ -75,4 +75,22 @@ class Category
 
         $this->termCount += $frequency;
     }
+
+    public function getTermFrequency($term): int
+    {
+        if(array_key_exists($term, $this->termFrequencies)){ 
+            return $this->termFrequencies[$term];
+        }
+
+        return 0;
+    }
+
+    public function calculateTermProbability(string $term, int $dictionarySize): float
+    {
+        $termFrequency = $this->getTermFrequency($term);
+
+        $termCount = $this->getTermCount();
+
+        return ($termFrequency + 1) / ($termCount + $dictionarySize);
+    }
 }
