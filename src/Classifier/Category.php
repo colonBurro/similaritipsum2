@@ -67,4 +67,12 @@ class Category
 
         return $this;
     }
+
+    public function updateTermFrequency(string $term, int $frequency): void
+    {
+        if (!isset($this->termFrequencies[$term])) $this->termFrequencies[$term] = $frequency;
+        else $this->termFrequencies[$term] += $frequency;
+
+        $this->termCount += $frequency;
+    }
 }

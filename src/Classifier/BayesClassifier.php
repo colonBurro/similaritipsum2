@@ -15,8 +15,6 @@ class BayesClassifier
     public ArrayCollection $categories;
 
     public int $totalDocuments;
-
-    public int $dictionarySize;
     
     public array $dictionary;
 
@@ -24,9 +22,8 @@ class BayesClassifier
     {
         $this -> tokenizer = new Tokenizer();
         $this -> categories = new ArrayCollection();
-        $this -> dictionary = [];
-        $this -> dictionarySize = 0;
         $this -> totalDocuments = 0;
+        $this -> dictionary = [];
     }
 
     public function checkAndSetCategory($categoryName)
@@ -56,5 +53,34 @@ class BayesClassifier
         }
 
         return null;
+    }
+
+    public function updateDictionary(String $term): void
+    {
+        if (!in_array($term, $this->dictionary)) {
+            $this->dictionary[] = $term;
+        }
+    }
+
+    public function learn(string $categoryName, string $document): bool
+    {
+        $tokens = $this->tokenizer->tokenize($document);
+        if(empty($tokens)) return false;
+
+        $category = $this->checkAndSetCategory($categoryName);
+
+        $documentsCount = $category->getDocumentCount();
+        $documentsCount++;
+        $category->setDocumentCount($documentsCount);
+
+        $this->totalDocuments++;
+        $termFrequencies = $this->tokenizer->calculateTermFrequencies($tokens);
+
+        foreach ($termFrequencies as $term => $frequency) {
+            $this->updateDictionary($term);
+            $category->updateTermFrequency($term, $frequency);
+        }
+
+        return true;
     }
 }
