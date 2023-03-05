@@ -55,4 +55,17 @@ final class BayesClassifierTest extends TestCase
         $this->assertSame(18, $categoryNotLoremIpsum->getTermCount());
         $this->assertSame(["lorem" => 3,"ipsum" => 3, "dolor" => 2, "sit" => 2, "amet" => 2, "consectetur" => 1, "adipiscing" => 1, "elit" => 1, "bacon" => 2, "chuck" => 1], $categoryNotLoremIpsum->getTermFrequencies());
     }
+
+    public function testCalculateCategoryProbabilities()
+    {
+        $classifier = new BayesClassifier();
+
+        $classifier->learn("numbers", "five six seven eight");
+        $classifier->learn("words", "one two three four");
+        $category = $classifier->fetchCategory("numbers");
+
+        $oneProbability = $classifier->calculateCategoryProbabilities("one two five six");
+        
+        $this->assertSame($oneProbability, ["numbers" => -9.246479418592056, "words" => -9.246479418592056]);
+    }
 }

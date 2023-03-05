@@ -93,4 +93,17 @@ class Category
 
         return ($termFrequency + 1) / ($termCount + $dictionarySize);
     }
+
+    public function calculateCategoryProbability(array $termFrequencies, int $totalDocuments, int $dictionarySize)
+    {
+        $categoryProbability = $this->documentCount / $totalDocuments;
+        $logProbability = log($categoryProbability);
+
+        foreach ($termFrequencies as $term => $frequency) {
+            $termProbability = $this->calculateTermProbability($term, $dictionarySize);
+            $logProbability += $frequency * log($termProbability);
+        }
+
+        return $logProbability;
+    }
 }

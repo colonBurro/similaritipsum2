@@ -7,7 +7,7 @@ use App\Classifier\BayesClassifier;
 
 final class CategoryTest extends TestCase
 {
-    public function testcalculateEvenProbability()
+    public function testCalculateEvenProbability()
     {
         $classifier = new BayesClassifier();
 
@@ -19,7 +19,7 @@ final class CategoryTest extends TestCase
         $this->assertSame($oneProbability, 0.25);
     }
 
-    public function testcalculateWeightedProbability()
+    public function testCalculateWeightedProbability()
     {
         $classifier = new BayesClassifier();
 

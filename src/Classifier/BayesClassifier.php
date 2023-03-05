@@ -83,4 +83,22 @@ class BayesClassifier
 
         return true;
     }
+
+    public function calculateCategoryProbabilities(string $document)
+    {
+        $probabilities = [];
+
+        if ($this->totalDocuments > 0) {
+            $tokens = $this->tokenizer->tokenize($document);
+            $termFrequencies = $this->tokenizer->calculateTermFrequencies($tokens);
+            $totalDocuments = $this->totalDocuments;
+            $dictionarySize = count($this->dictionary);
+
+            foreach ($this->categories as $category) {
+                $probabilities[$category->getName()] = $category->calculateCategoryProbability($termFrequencies, $totalDocuments, $dictionarySize);
+            }
+        }
+
+        return $probabilities;
+    }
 }
