@@ -26,7 +26,7 @@ class BayesClassifier
         $this -> dictionary = [];
     }
 
-    public function checkAndSetCategory($categoryName)
+    public function checkAndSetCategory($categoryName): Category
     {
         $category = $this->fetchCategory($categoryName);
         if (!isset($category)){
@@ -84,7 +84,7 @@ class BayesClassifier
         return true;
     }
 
-    public function calculateCategoryProbabilities(string $document)
+    public function calculateCategoryProbabilities(string $document): array
     {
         $probabilities = [];
 
