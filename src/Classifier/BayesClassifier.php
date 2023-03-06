@@ -119,4 +119,30 @@ class BayesClassifier
 
         return $probabilities;
     }
+
+    public function loadCategoriesFromDatabase(array $databaseCategories)
+    {
+        foreach ($databaseCategories as $category){
+            $this->checkAndSetCategory($category->getName())
+                ->setDocumentCount($category->getDocumentCount())
+                ->settermCount($category->getTermCount())
+                ->settermFrequencies($category->getTermFrequencies());
+        }
+
+        $this->loadDataFromCategories($databaseCategories);
+    }
+
+    public function loadDataFromCategories($categories)
+    {
+        $totalDocuments = 0;
+        $dictionary = [];
+
+        foreach ($categories as $category){
+            $totalDocuments += $category->getDocumentCount();
+            $dictionary = array_unique(array_merge($dictionary, array_keys($category->getTermFrequencies())), SORT_REGULAR);
+        }
+
+        $this->totalDocuments = $totalDocuments;
+        $this->dictionary = $dictionary;
+    }
 }
