@@ -101,4 +101,22 @@ class BayesClassifier
 
         return $probabilities;
     }
+
+    public function classify(string $document): array
+    {
+        $probabilities = [];
+        $totalProbability = -INF;
+
+        if ($this->totalDocuments > 0) {
+            $probabilities = $this->calculateCategoryProbabilities($document);
+
+            foreach ($probabilities as $logProbability) {
+                if ($logProbability > $totalProbability) $totalProbability = $logProbability;
+            }
+
+            arsort($probabilities);
+        }
+
+        return $probabilities;
+    }
 }
