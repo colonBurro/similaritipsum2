@@ -4,11 +4,12 @@
     3. Run 'php/bin console doctrine:database:create'
     4. Run 'php/bin console doctrine:database:migrate'
     5. Run 'php/bin console cache:clear'
+    6. Run 'symfony server:start' to start the app locally
 
 ## Usage
     You can use the classifier by accessing the following two URLs:
             
-    /api/classifier/learn 
+    {local_url}/api/classifier/learn 
     input data:
     ```php
     
@@ -28,7 +29,7 @@
     
     ```
 
-    /api/classifier/classify
+    {local_url}/api/classifier/classify
     input data:
     ```php
     
